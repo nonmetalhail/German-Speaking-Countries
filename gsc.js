@@ -1,6 +1,9 @@
 var width = 960,
     height = 1160;
 
+var ddr = ['Thüringen', 'Sachsen-Anhalt', 'Brandenburg', 'Mecklenburg-Vorpommern','Sachsen'],
+  brd = ['Schleswig-Holstein','Niedersachsen','Hessen','Bayern'];
+
 var svg = d3.select("body").append("svg")
   .attr("width", width)
   .attr("height", height)
@@ -35,6 +38,16 @@ d3.json("gsc.json", function(error, gsc) {
     .attr("d", path)
     .attr("class", "country-border");
 
+  //DDR
+  svg.append("path")
+    .datum(topojson.mesh(gsc, gsc.objects.scaleranks, function(a, b) { 
+      if( ($.inArray(a.properties.sname,ddr) > -1 && $.inArray(b.properties.sname,brd) > -1) || ($.inArray(a.properties.sname,brd) > -1 && $.inArray(b.properties.sname,ddr) > -1) ){
+        return a 
+      }
+      else{ return }
+    }))
+    .attr("d", path)
+    .attr("class", "ddr-border");
 
   //places
   svg.append("path")
@@ -51,9 +64,8 @@ d3.json("gsc.json", function(error, gsc) {
     .text(function(d) { return d.properties.name; });
 
   svg.selectAll(".place-label")
-    .attr("x", function(d) { return d.geometry.coordinates[0] > 12 ? 6 : -6; })
-    .style("text-anchor", function(d) { return d.geometry.coordinates[0] > 12 ? "start" : "end"; });
-
+    .attr("x", function(d) { return d.geometry.coordinates[0] > 8 ? 6 : -6; })
+    .style("text-anchor", function(d) { return d.geometry.coordinates[0] > 8 ? "start" : "end"; });
 
   //country label
   svg.selectAll(".country-label")
@@ -63,5 +75,4 @@ d3.json("gsc.json", function(error, gsc) {
     .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
     .attr("dy", ".35em")
     .text(function(d) { return d.properties.name; });
-
 });

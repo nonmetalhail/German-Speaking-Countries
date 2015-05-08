@@ -5,12 +5,17 @@
 .country-border {
   fill: none;
   stroke: #777;
-  /*stroke-dasharray: 2,2;
-  stroke-linejoin: round;*/
+}
+
+.ddr-border{
+  fill: none;
+  stroke: #777;
+  stroke-dasharray: 2,2;
+  stroke-linejoin: round;
 }
 
 text {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 10px;
   pointer-events: none;
 }
