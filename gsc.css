@@ -12,10 +12,14 @@ svg{
   float: left;
 }
 
-#cityList{
+#controls{
   width: 300px;
   display: inline-block;
-  padding:0 100px;
+  margin:0 100px;
+}
+
+#controls > div{
+  margin-bottom: 50px;
 }
 
 .gsc_borders{
@@ -55,4 +59,12 @@ text {
 
 .hideLabel{
   fill:none;
+}
+
+.map-title{
+  fill: #777;
+  fill-opacity: .5;
+  font-size: 50px;
+  font-weight: 300;
+  text-anchor: middle; 
 }

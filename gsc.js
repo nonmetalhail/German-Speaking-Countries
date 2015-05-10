@@ -92,6 +92,13 @@ d3.json("gsc.json", function(error, gsc) {
     .attr("dy", ".35em")
     .text(function(d) { return d.properties.name; });
 
+
+  var mapTitle = svg.append("text")
+    .attr("class", "map-title")
+    .attr("transform","translate(840,1125)")
+    .text('YEAR');
+
+
   // $('<div/>',{
   //   id:"cityList"
   // }).appendTo('body');
@@ -133,5 +140,9 @@ d3.json("gsc.json", function(error, gsc) {
       d3.select("#" + this.value).style("visibility", "hidden");
       d3.select('#p_'+this.value).style("visibility", "hidden");
     }
+  });
+
+  $('#yearField').on('keyup',function(){
+    mapTitle.text($(this).val());
   });
 });
