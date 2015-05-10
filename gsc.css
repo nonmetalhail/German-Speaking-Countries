@@ -21,7 +21,7 @@ svg{
 #controls > div{
   margin-bottom: 50px;
 }
-
+/*
 .gsc_borders{
   fill: #eee;
   fill-opacity: .2;
@@ -57,14 +57,10 @@ text {
   fill: #444;
 }
 
-.hideLabel{
-  fill:none;
-}
-
 .map-title{
   fill: #777;
   fill-opacity: .5;
   font-size: 50px;
   font-weight: 300;
   text-anchor: middle; 
-}
+}*/

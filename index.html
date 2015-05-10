@@ -8,18 +8,27 @@
   </head>
 
   <body>
-    <svg id="gsc"></svg>
+    <div id="map">
+      <svg id="gsc"></svg>
+    </div>
     <div id="controls">
       <div id="cityList"></div>
       <div id="yearDiv">
         <h2>Map Year</h2>
         <input id="yearField" type="text" placeholder="year"/>
       </div>
+      <div id="yearDiv">
+        <h2>Save PNG</h2>
+        <button id="save">Save PNG</button>
+      </div>
     </div>
 
   </body>
-  <script src="http://code.jquery.com/jquery-latest.js"></script>
-  <script src="d3.v3.min.js"></script>
-  <script src="topojson.v1.min.js"></script>
-  <script src="gsc.js"></script>
+  <script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="d3.v3.min.js"></script>
+  <script type="text/javascript" src="topojson.v1.min.js"></script>
+  <script type="text/javascript" src="rgbcolor.js"></script> 
+  <script type="text/javascript" src="canvg.js"></script> 
+  <script type="text/javascript" src="svgenie.js"></script>
+  <script type="text/javascript" src="gsc.js"></script>
 </html>

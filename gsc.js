@@ -6,16 +6,17 @@ var ddr = ['Thüringen', 'Sachsen-Anhalt', 'Brandenburg', 'Mecklenburg-Vorpommer
 
 var places = {};
 
-// var svg = d3.select("body").append("svg")
 var svg = d3.select('#gsc')
   .attr("width", width)
   .attr("height", height)
-  .attr("style","border:1px solid black");
+  .style({
+    "background-color":"white",
+    "border":"1px solid black"
+  });
 
 d3.json("gsc.json", function(error, gsc) {
   if (error) return console.error(error);
 
-  // console.log(gsc);
   var gsc_borders = topojson.feature(gsc, gsc.objects.gsc_borders);
   var projection = d3.geo.albers()
     .center([0, 50.5])
@@ -28,18 +29,26 @@ d3.json("gsc.json", function(error, gsc) {
     .projection(projection)
     .pointRadius(2);
 
-  //fill borders with css
+  //fill borders with css 
   svg.selectAll(".gsc_borders")
     .data(topojson.feature(gsc, gsc.objects.gsc_borders).features)
     .enter().append("path")
     .attr("class", function(d) { return "gsc_borders " + d.id; })
-    .attr("d", path);
+    .attr("d", path)
+    .style({
+      "fill": "#eee",
+      "fill-opacity": ".2"
+    });
 
   //stroke
   svg.append("path")
     .datum(topojson.mesh(gsc, gsc.objects.gsc_borders))
     .attr("d", path)
-    .attr("class", "country-border");
+    .attr("class", "country-border")
+    .style({
+      "fill": "none",
+      "stroke": "#777"
+    });
 
   //DDR
   svg.append("path")
@@ -50,7 +59,13 @@ d3.json("gsc.json", function(error, gsc) {
       return
     }))
     .attr("d", path)
-    .attr("class", "ddr-border");
+    .attr("class", "ddr-border")
+    .style({
+      "fill": "none",
+      "stroke": "#777",
+      "stroke-dasharray": "2,2",
+      "stroke-linejoin": "round",
+    });
 
   //places
   svg.selectAll('.place')
@@ -59,7 +74,10 @@ d3.json("gsc.json", function(error, gsc) {
     .attr("d", path)
     .attr("class", "place")
     .attr('id',function(d){ return 'p_'+ d.properties.name.replace(/\s+/g, '') })
-    .style("visibility", "hidden");
+    .style({
+      "visibility": "hidden",
+      "fill": "#444"
+    });
 
   svg.selectAll(".place-label")
     .data(topojson.feature(gsc, gsc.objects.gsc_places).features)
@@ -76,7 +94,13 @@ d3.json("gsc.json", function(error, gsc) {
     .attr("class", "place-label")
     .attr("transform", function(d) { return "translate(" + projection(d.geometry.coordinates) + ")"; })
     .attr("dy", ".35em")
-    .style("visibility", "hidden")
+    .style({
+      "visibility": "hidden",
+      "font-family": "Helvetica, Arial, sans-serif",
+      "font-size": "10px",
+      "pointer-events": "none",
+      "fill": "#444"
+    })
     .text(function(d) { return d.properties.name; });
 
   svg.selectAll(".place-label")
@@ -90,18 +114,31 @@ d3.json("gsc.json", function(error, gsc) {
     .attr("class", function(d) { return "country-label " + d.id; })
     .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
     .attr("dy", ".35em")
-    .text(function(d) { return d.properties.name; });
-
+    .text(function(d) { return d.properties.name; })
+    .style({
+      "font-family": "Helvetica, Arial, sans-serif",
+      "pointer-events": "none",
+      "fill": "#777",
+      "fill-opacity": ".5",
+      "font-size": "20px",
+      "font-weight": "300",
+      "text-anchor": "middle"
+    });
 
   var mapTitle = svg.append("text")
     .attr("class", "map-title")
-    .attr("transform","translate(840,1125)")
+    .attr("transform", function(){ return "translate(" + (width-40) + "," + (height-35) + ")"; })
+    .style({
+      "font-family": "Helvetica, Arial, sans-serif",
+      "pointer-events": "none",
+      "fill": "#777",
+      "fill-opacity": ".5",
+      "font-size": "50px",
+      "font-weight": "300",
+      "text-anchor":"end"
+    })
     .text('YEAR');
 
-
-  // $('<div/>',{
-  //   id:"cityList"
-  // }).appendTo('body');
 
   $('<h2/>',{
     text:"Cities"
@@ -120,8 +157,7 @@ d3.json("gsc.json", function(error, gsc) {
       $('<input/>', {
         type: "checkbox",
         id: "cb_" + d.replace(/\s+/g, ''),
-        value: d.replace(/\s+/g, ''),
-        // checked:'checked'
+        value: d.replace(/\s+/g, '')
       }).appendTo('#div_'+ d.replace(/\s+/g, ''));
 
       $('<label />', { 
@@ -144,5 +180,12 @@ d3.json("gsc.json", function(error, gsc) {
 
   $('#yearField').on('keyup',function(){
     mapTitle.text($(this).val());
+  });
+
+  d3.select("#save").on("click", function(){
+    var n = "gsc_" + $('#yearField').val() + ".png";
+    svgenie.save( "gsc", {
+        name : n
+    });
   });
 });
