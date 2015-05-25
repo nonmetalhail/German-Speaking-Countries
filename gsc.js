@@ -1,3 +1,48 @@
+var Vis = function(w,h,c){
+  this.width = w;
+  this.height = h;
+  this.container = c;
+};
+
+var D3Map = function(){
+  this.projection;
+  this.path;
+};
+
+Vis.prototype = {
+  _setupContainer: function(){
+    this.svg = d3.select(this.container)
+      .attr("width", this.width)
+      .attr("height", this.height);
+  },
+  changeWidth:function(w){
+    this.width = w;
+    this.svg.attr("width", this.width);
+  },
+  maps: {},
+  
+};
+
+D3Map.prototype = {
+  _getData:function(file){
+    d3.json("gsc.json", function(error, gsc) {
+      if (error) return console.error(error);
+
+    }
+  }
+  _setProjection:function(){
+    projection = d3.geo.albers()
+      .center([0, 50.5])
+      .rotate([-11.5, 0])
+      .parallels([45, 55])
+      .scale(6000)
+      .translate([width / 2, height / 2]);
+  }
+}
+
+
+
+
 var width = 960,
     height = 1160;
 
@@ -8,24 +53,23 @@ var places = {};
 
 var svg = d3.select('#gsc')
   .attr("width", width)
-  .attr("height", height)
-  .style({
-    "background-color":"white",
-    "border":"1px solid black"
-  });
+  .attr("height", height);
+
+var projection;
+var path;
 
 d3.json("gsc.json", function(error, gsc) {
   if (error) return console.error(error);
 
-  var gsc_borders = topojson.feature(gsc, gsc.objects.gsc_borders);
-  var projection = d3.geo.albers()
+  // var gsc_borders = topojson.feature(gsc, gsc.objects.gsc_borders);
+  projection = d3.geo.albers()
     .center([0, 50.5])
     .rotate([-11.5, 0])
     .parallels([45, 55])
     .scale(6000)
     .translate([width / 2, height / 2]);
 
-  var path = d3.geo.path()
+  path = d3.geo.path()
     .projection(projection)
     .pointRadius(2);
 
