@@ -5,6 +5,8 @@ It allows you to choose which cities to display and add a year to the chart. The
 
 Very specific use cases for generating graphics for my GF's dissertation.
 
+View Live:http://www.nonmetalhail.com/projects/German-Speaking-Countries/
+
 Based on Mike Bostock's map demo:
 http://bost.ocks.org/mike/map/
 
